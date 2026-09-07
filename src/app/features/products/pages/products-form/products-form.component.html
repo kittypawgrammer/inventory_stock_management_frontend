@@ -65,56 +65,56 @@
   </div>
 
 
-  <!-- Category -->
+  <!-- Category Name -->
   <div>
-    <label>Category</label>
+    <label>Category Name</label>
 
     <select
-      formControlName="category_id"
+      formControlName="category_name"
       class="w-full rounded-xl border border-slate-300 px-3 py-2.5"
     >
-      <option [ngValue]="null">Select a category</option>
+      <option [ngValue]="null">Select a category name</option>
 
       <option
         *ngFor="let category of categories"
-        [ngValue]="category.id"
+        [ngValue]="category.name"
       >
         {{ category.name }}
       </option>
     </select>
 
     <p
-      *ngIf="productForm.get('category_id')?.touched && productForm.get('category_id')?.invalid"
+      *ngIf="productForm.get('category_name')?.touched && productForm.get('category_name')?.invalid"
       class="text-xs text-red-600"
     >
-      Category is required.
+      Category name is required.
     </p>
   </div>
 
 
-  <!-- Supplier -->
+  <!-- Supplier Name -->
   <div>
-    <label>Supplier</label>
+    <label>Supplier Name</label>
 
     <select
-      formControlName="supplier_id"
+      formControlName="supplier_name"
       class="w-full rounded-xl border border-slate-300 px-3 py-2.5"
     >
-      <option [ngValue]="null">Select a supplier</option>
+      <option [ngValue]="null">Select a supplier name</option>
 
       <option
         *ngFor="let supplier of suppliers"
-        [ngValue]="supplier.id"
+        [ngValue]="supplier.name"
       >
         {{ supplier.name }}
       </option>
     </select>
 
     <p
-      *ngIf="productForm.get('supplier_id')?.touched && productForm.get('supplier_id')?.invalid"
+      *ngIf="productForm.get('supplier_name')?.touched && productForm.get('supplier_name')?.invalid"
       class="text-xs text-red-600"
     >
-      Supplier is required.
+      Supplier name is required.
     </p>
   </div>
 

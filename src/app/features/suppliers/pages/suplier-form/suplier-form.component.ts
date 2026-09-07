@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SupplierService } from '../../../../core/services/supplier.service';
+import { SupplierService } from '../../../../services/supplier.service';
 
 @Component({
   selector: 'app-suplier-form',

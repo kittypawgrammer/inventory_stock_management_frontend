@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import {
   SupplierService,
   Supplier
-} from '../../../../core/services/supplier.service';
+} from '../../../../services/supplier.service';
 
 export interface Suggestion {
   name: string;

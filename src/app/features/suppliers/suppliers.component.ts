@@ -1,12 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { SupplierService, Supplier } from '../../core/services/supplier.service';
+import { SupplierService } from '../../services/supplier.service';
+
+//supplier interface
+export interface Supplier {
+  id: number;
+  name: string;
+  contact_email: string;
+  phone: string;
+  address: string;
+  created_at: string;
+}
 
 @Component({
   selector: 'app-suppliers',
   templateUrl: './suppliers.component.html',
   styleUrl: './suppliers.component.css'
 })
+
 export class SuppliersComponent implements OnInit {
+  //array to hold suppliers
   suppliers: Supplier[] = [];
 
   constructor(private supplierService: SupplierService) {}

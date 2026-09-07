@@ -1,8 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { ProductService } from '../../core/services/product.service';
-import { SupplierService } from '../../core/services/supplier.service';
-import { CategoryService } from '../../core/services/category.service';
+import { ProductService } from '../../services/product.service';
+import { SupplierService } from '../../services/supplier.service';
+import { CategoryService } from '../../services/category.service';
 
 export interface Suggestion {
   type: 'product' | 'supplier' | 'category';
@@ -35,8 +35,8 @@ export class TopbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.productService.getProducts().subscribe({
-      next: (products) => {
-        this.products = products.map((p) => ({ id: p.id, name: p.name, sku: p.sku }));
+      next: (response) => {
+        this.products = response.items.map((p: { id: number; name: string; sku: string }) => ({ id: p.id, name: p.name, sku: p.sku }));
       },
       error: (error) => {
         console.error('Error loading products:', error);

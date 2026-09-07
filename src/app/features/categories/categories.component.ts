@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { CategoryService } from '../../services/category.service';
 
-import { CategoryService, Category } from '../../core/services/category.service';
+export interface Category {
+  id: number;
+  name: string;
+  description: string;
+  created_at?: string | null;
+}
 
 @Component({
   selector: 'app-categories',
@@ -11,27 +17,35 @@ export class CategoriesComponent implements OnInit {
 
   categories: Category[] = [];
 
-constructor(
-  private categoryService: CategoryService
-) {}
+  constructor(
+    private categoryService: CategoryService
+  ) {}
 
-ngOnInit(): void {
-this.getCategories();
-}
-
-//Get all categories
-getCategories(): void {
-
-this.categoryService.getCategories().subscribe({
-  next: (categories) => {
-    this.categories = categories;
-  },
-
-  error: (error) => {
-    console.error('Error loading categories:', error);
+  ngOnInit(): void {
+    this.getCategories();
   }
-});
 
-}
+  getCategories(): void {
+    this.categoryService.getCategories().subscribe({
+      next: (response) => {
+        this.categories = response;
+      },
+      error: (error) => {
+        console.error('Error loading categories:', error);
+      }
+    });
+  }
 
+  deleteCategory(id: number): void {
+    this.categoryService.deleteCategory(id).subscribe({
+      next: () => {
+        this.categories = this.categories.filter(
+          category => category.id !== id
+        );
+      },
+      error: (error) => {
+        console.error('Error deleting category:', error);
+      }
+    });
+  }
 }

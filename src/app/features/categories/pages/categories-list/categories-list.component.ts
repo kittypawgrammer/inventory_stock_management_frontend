@@ -1,17 +1,17 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import {
-  CategoryService,
-  Category
-} from '../../../../core/services/category.service';
+
+import { CategoryService } from '../../../../services/category.service';
+import { Category } from '../../categories.component';
+
 
 @Component({
   selector: 'app-categories-list',
   templateUrl: './categories-list.component.html',
   styleUrl: './categories-list.component.css'
 })
-export class CategoriesListComponent implements OnInit {
+export class CategoriesListComponent implements OnInit, OnDestroy {
 
   // Categories received from parent component
   @Input() categories: Category[] = [];
@@ -35,19 +35,6 @@ export class CategoriesListComponent implements OnInit {
     this.routeSubscription = this.route.queryParamMap.subscribe((params) => {
       this.searchQuery = params.get('search') ?? '';
     });
-
-    // Load categories if parent has not provided them
-    if (!this.categories.length) {
-
-      this.categoryService.getCategories().subscribe({
-        next: (categories) => {
-          this.categories = categories;
-        },
-        error: (error) => {
-          console.error('Error loading categories:', error);
-        }
-      });
-    }
   }
 
 
@@ -81,6 +68,7 @@ export class CategoriesListComponent implements OnInit {
 
     return result;
   }
+
 
   // Get search suggestions
   get suggestions(): Category[] {
@@ -119,6 +107,7 @@ export class CategoriesListComponent implements OnInit {
     return result;
   }
 
+
   // When user types in search box
   onSearchInput(query: string): void {
 
@@ -129,6 +118,7 @@ export class CategoriesListComponent implements OnInit {
     this.selectedSuggestionIndex = -1;
   }
 
+
   // When user selects a suggestion
   selectSuggestion(category: Category): void {
 
@@ -138,6 +128,7 @@ export class CategoriesListComponent implements OnInit {
 
     this.selectedSuggestionIndex = -1;
   }
+
 
   // Handle keyboard events
   onSearchKeydown(event: KeyboardEvent): void {
@@ -191,6 +182,7 @@ export class CategoriesListComponent implements OnInit {
     }
   }
 
+
   // Hide suggestions when search box loses focus
   onBlurSuggestions(): void {
 
@@ -201,6 +193,7 @@ export class CategoriesListComponent implements OnInit {
 
     }, 150);
   }
+
 
   // Remove duplicate categories
   private dedupe(items: Category[]): Category[] {
@@ -224,6 +217,7 @@ export class CategoriesListComponent implements OnInit {
 
     return result;
   }
+
 
   // Delete category
   deleteCategory(id: number): void {
@@ -268,5 +262,13 @@ export class CategoriesListComponent implements OnInit {
         console.error('Error deleting category:', error);
       }
     });
+  }
+
+
+  // Unsubscribe from route subscription
+  ngOnDestroy(): void {
+
+    this.routeSubscription?.unsubscribe();
+
   }
 }

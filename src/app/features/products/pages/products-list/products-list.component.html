@@ -5,89 +5,67 @@
   <div class="border-b border-slate-200 px-6 py-3">
     <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
 
-  <h2 class="text-lg font-semibold text-slate-900">
-    Product List
-  </h2>
+      <h2 class="text-lg font-semibold text-slate-900">
+        Product List
+      </h2>
 
-  <div class="flex flex-col gap-3 md:flex-row md:items-center">
+      <div class="flex flex-col gap-3 md:flex-row md:items-center">
 
-    <!-- Search -->
-    <label class="relative block min-w-[200px]">
+        <!-- Search -->
+        <label class="relative block min-w-[200px]">
 
-      <span class="sr-only">
-        Search products
-      </span>
+          <span class="sr-only">
+            Search products
+          </span>
 
-      <input
-        #searchInput
-        type="search"
-        placeholder="Search products"
-        [value]="searchQuery"
-        (input)="onSearchInput(searchInput.value)"
-        (keydown)="onSearchKeydown($event)"
-        class="w-full rounded-xl border border-slate-300 bg-slate-50 py-2 pl-9 pr-3 text-sm text-slate-700 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-      />
+          <input #searchInput type="search" placeholder="Search products" [value]="searchQuery"
+            (input)="onSearchInput(searchInput.value)" (keydown)="onSearchKeydown($event)"
+            class="w-full rounded-xl border border-slate-300 bg-slate-50 py-2 pl-9 pr-3 text-sm text-slate-700 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200" />
 
-      <svg
-        class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-        aria-hidden="true"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M9 3.5a5.5 5.5 0 104.39 9.39l2.96 2.96a1 1 0 101.41-1.41l-2.96-2.96A5.5 5.5 0 009 3.5zm0 2a3.5 3.5 0 110 7 3.5 3.5 0 010-7z"
-          clip-rule="evenodd"
-        />
-      </svg>
+          <svg class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
+            viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd"
+              d="M9 3.5a5.5 5.5 0 104.39 9.39l2.96 2.96a1 1 0 101.41-1.41l-2.96-2.96A5.5 5.5 0 009 3.5zm0 2a3.5 3.5 0 110 7 3.5 3.5 0 010-7z"
+              clip-rule="evenodd" />
+          </svg>
 
-      <!-- Suggestions -->
-      <div
-        *ngIf="showSuggestions && suggestions.length > 0"
-        class="absolute left-0 right-0 z-10 mt-2 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg"
-      >
+          <!-- Suggestions -->
+          <div *ngIf="showSuggestions && suggestions.length > 0"
+            class="absolute left-0 right-0 z-10 mt-2 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg">
 
-        <button
-          type="button"
-          *ngFor="let suggestion of suggestions; let i = index"
-          (mousedown)="selectSuggestion(suggestion)"
-          [class]="
+            <button type="button" *ngFor="let suggestion of suggestions; let i = index"
+              (mousedown)="selectSuggestion(suggestion)" [class]="
             i === selectedSuggestionIndex
               ? 'block w-full bg-blue-50 px-4 py-2 text-left text-sm text-slate-900'
               : 'block w-full px-4 py-2 text-left text-sm text-slate-700 hover:bg-slate-50'
-          "
-        >
-          {{ suggestion.name }}
+          ">
+              {{ suggestion.name }}
 
-          <span class="ml-2 text-xs text-slate-400">
-            {{ suggestion.sku }}
-          </span>
+              <span class="ml-2 text-xs text-slate-400">
+                {{ suggestion.sku }}
+              </span>
 
-        </button>
+            </button>
+
+          </div>
+
+        </label>
+
+        <!-- Status Filter -->
+        <select #statusSelect [value]="selectedStatus" (change)="onStatusChange(statusSelect.value)"
+          aria-label="Filter by status"
+          class="rounded-xl border border-slate-300 bg-slate-50 px-3 py-2 text-sm text-slate-700 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200">
+
+          <option>All Status</option>
+          <option>In Stock</option>
+          <option>Low Stock</option>
+          <option>Out of Stock</option>
+
+        </select>
 
       </div>
 
-    </label>
-
-    <!-- Status Filter -->
-    <select
-      #statusSelect
-      [value]="selectedStatus"
-      (change)="onStatusChange(statusSelect.value)"
-      aria-label="Filter by status"
-      class="rounded-xl border border-slate-300 bg-slate-50 px-3 py-2 text-sm text-slate-700 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-    >
-
-      <option>All Status</option>
-      <option>In Stock</option>
-      <option>Low Stock</option>
-      <option>Out of Stock</option>
-
-    </select>
-
-  </div>
-
-</div>
+    </div>
 
 
   </div>
@@ -96,122 +74,116 @@
 
   <div class="table-scroll min-h-0 flex-1 overflow-x-auto">
 
-<table class="min-w-full divide-y divide-slate-200 text-left">
+    <table class="min-w-full divide-y divide-slate-200 text-left">
 
-  <thead class="bg-slate-50 text-sm text-slate-600">
+      <thead class="bg-slate-50 text-sm text-slate-600">
 
-    <tr>
-      <th class="px-4 py-3 font-medium">ID</th>
-      <th class="px-4 py-3 font-medium">Name</th>
-      <th class="px-4 py-3 font-medium">SKU</th>
-      <th class="px-4 py-3 font-medium">Category</th>
-      <th class="px-4 py-3 font-medium">Supplier</th>
-      <th class="px-4 py-3 font-medium">Price</th>
-      <th class="px-4 py-3 font-medium">Qty</th>
-      <th class="px-4 py-3 font-medium">Status</th>
-      <th class="px-4 py-3 text-right font-medium">Actions</th>
-    </tr>
+        <tr>
+          <th class="px-4 py-3 font-medium">ID</th>
+          <th class="px-4 py-3 font-medium">Name</th>
+          <th class="px-4 py-3 font-medium">SKU</th>
+          <th class="px-4 py-3 font-medium">Category ID</th>
+          <th class="px-4 py-3 font-medium">Category Name</th>
+          <th class="px-4 py-3 font-medium">Supplier ID</th>
+          <th class="px-4 py-3 font-medium">Supplier Name</th>
+          <th class="px-4 py-3 font-medium">Price</th>
+          <th class="px-4 py-3 font-medium">Qty</th>
+          <th class="px-4 py-3 font-medium">Status</th>
+          <th class="px-4 py-3 text-right font-medium">Actions</th>
+        </tr>
 
-  </thead>
-
-
-  <tbody class="divide-y divide-slate-200 bg-white text-sm text-slate-700">
-
-    <!-- Product Rows -->
-    <tr *ngFor="let product of filteredProducts">
-
-      <td class="px-4 py-3 text-slate-500">
-        {{ product.id }}
-      </td>
-
-      <td class="px-4 py-3 font-medium text-slate-900">
-        {{ product.name }}
-      </td>
-
-      <td class="px-4 py-3">
-        {{ product.sku }}
-      </td>
-
-      <td class="px-4 py-3">
-        {{ getCategoryName(product) }}
-      </td>
-
-      <td class="px-4 py-3">
-        {{ getSupplierName(product) }}
-      </td>
-
-      <td class="px-4 py-3">
-        {{ product.unit_price }}
-      </td>
-
-      <td class="px-4 py-3">
-        {{ product.quantity_in_stock }}
-      </td>
-
-      <!-- Status -->
-      <td class="px-4 py-3">
-
-        <span
-          class="inline-flex rounded-full px-2.5 py-1 text-xs font-medium"
-          [ngClass]="{
-            'bg-emerald-100 text-emerald-700':
-              product.stock_status === 'In Stock',
-
-            'bg-amber-100 text-amber-700':
-              product.stock_status === 'Low Stock',
-
-            'bg-red-100 text-red-700':
-              product.stock_status === 'Out of Stock'
-          }"
-        >
-          {{ product.stock_status }}
-        </span>
-
-      </td>
+      </thead>
 
 
-      <!-- Actions -->
-      <td class="px-4 py-3">
+      <tbody class="divide-y divide-slate-200 bg-white text-sm text-slate-700">
 
-        <div class="flex justify-end gap-2">
+        <!-- Product Rows -->
+        <tr *ngFor="let product of filteredProducts">
 
-          <a
-            [routerLink]="['/products/edit', product.id]"
-            class="rounded-lg border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50"
-          >
-            Edit
-          </a>
+          <td class="px-4 py-3 text-slate-500">
+            {{ product.id }}
+          </td>
 
-          <button
-            type="button"
-            (click)="deleteProduct(product.id)"
-            class="rounded-lg border border-red-200 px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50"
-          >
-            Delete
-          </button>
+          <td class="px-4 py-3 font-medium text-slate-900">
+            {{ product.name }}
+          </td>
 
-        </div>
+          <td class="px-4 py-3">
+            {{ product.sku }}
+          </td>
 
-      </td>
+          <td class="px-4 py-3">
+            {{ product.category_id }}
+          </td>
 
-    </tr>
+          <td class="px-4 py-3">
+            {{ getCategoryName(product) }}
+          </td>
+
+          <td class="px-4 py-3">
+            {{ product.supplier_id }}
+          </td>
+
+          <td class="px-4 py-3">
+            {{ getSupplierName(product) }}
+          </td>
+
+          <td class="px-4 py-3">
+            {{ product.unit_price }}
+          </td>
+
+          <td class="px-4 py-3">
+            {{ product.quantity_in_stock }}
+          </td>
+
+          <!-- Status -->
+          <td class="px-4 py-3">
+
+            <span class="rounded-full px-2 py-1 text-xs font-medium" [ngClass]="{
+      'bg-green-100 text-green-700': getStatusLabel(product.stock_status) === 'In Stock',
+      'bg-amber-100 text-amber-700': getStatusLabel(product.stock_status) === 'Low Stock',
+      'bg-red-100 text-red-700': getStatusLabel(product.stock_status) === 'Out of Stock'
+    }">
+              {{ getStatusLabel(product.stock_status) }}
+            </span>
+
+          </td>
 
 
-    <!-- No Products -->
-    <tr *ngIf="filteredProducts.length === 0">
+          <!-- Actions -->
+          <td class="px-4 py-3">
 
-      <td
-        colspan="9"
-        class="px-4 py-12 text-center text-sm text-slate-400"
-      >
-        No products found
-      </td>
+            <div class="flex justify-end gap-2">
 
-    </tr>
+              <a [routerLink]="['/products/edit', product.id]"
+                class="rounded-lg border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50">
+                Edit
+              </a>
 
-  </tbody>
+              <button type="button" (click)="deleteProduct(product.id)"
+                class="rounded-lg border border-red-200 px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50">
+                Delete
+              </button>
 
-</table>
+            </div>
+
+          </td>
+
+        </tr>
+
+
+        <!-- No Products -->
+        <tr *ngIf="filteredProducts.length === 0">
+
+          <td colspan="11" class="px-4 py-12 text-center text-sm text-slate-400">
+            No products found
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
 
   </div>
 
@@ -219,15 +191,15 @@
 
   <div class="border-t border-slate-200 px-4 py-2">
 
-<div class="flex items-center justify-between text-sm text-slate-500">
+    <div class="flex items-center justify-between text-sm text-slate-500">
 
-  <span>
-    Showing {{ filteredProducts.length }}
-    of {{ products.length }} products
-  </span>
+      <span>
+        Showing {{ filteredProducts.length }}
+        of {{ products.length }} products
+      </span>
 
 
-</div>
+    </div>
 
   </div>
 
