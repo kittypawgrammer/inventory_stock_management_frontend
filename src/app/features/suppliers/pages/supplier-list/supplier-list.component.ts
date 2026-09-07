@@ -1,15 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import {
-  SupplierService,
-  Supplier
-} from '../../../../services/supplier.service';
-
-export interface Suggestion {
-  name: string;
-  sub: string;
-}
+import { SupplierService, Supplier } from '../../../../services/supplier.service';
 
 @Component({
   selector: 'app-suppliers-list',
@@ -48,6 +40,7 @@ export class SupplierListComponent implements OnInit, OnDestroy {
         next: (suppliers) => {
           this.suppliers = suppliers;
         },
+
         error: (error) => {
           console.error('Error loading suppliers:', error);
         }
@@ -72,7 +65,7 @@ export class SupplierListComponent implements OnInit, OnDestroy {
     }
 
     // Filter by name, email, phone or address
-    const result = this.suppliers.filter((supplier) => {
+    return this.suppliers.filter((supplier) => {
 
       return (
         supplier.name.toLowerCase().includes(query) ||
@@ -82,12 +75,10 @@ export class SupplierListComponent implements OnInit, OnDestroy {
       );
 
     });
-
-    return result;
   }
 
   // Get search suggestions
-  get suggestions(): Suggestion[] {
+  get suggestions(): Supplier[] {
 
     const query = this.searchQuery.trim().toLowerCase();
 
@@ -101,25 +92,15 @@ export class SupplierListComponent implements OnInit, OnDestroy {
 
       return (
         supplier.name.toLowerCase().includes(query) ||
-        supplier.contact_email.toLowerCase().includes(query)
+        supplier.contact_email.toLowerCase().includes(query) ||
+        supplier.phone.toLowerCase().includes(query) ||
+        supplier.address.toLowerCase().includes(query)
       );
 
     });
 
     // Show maximum 8 suggestions
-    const limitedMatches = matches.slice(0, 8);
-
-    // Convert supplier data into suggestion format
-    const result = limitedMatches.map((supplier) => {
-
-      return {
-        name: supplier.name,
-        sub: supplier.contact_email
-      };
-
-    });
-
-    return result;
+    return matches.slice(0, 8);
   }
 
   // When user types in search box
@@ -133,7 +114,7 @@ export class SupplierListComponent implements OnInit, OnDestroy {
   }
 
   // When user selects a suggestion
-  selectSuggestion(suggestion: Suggestion): void {
+  selectSuggestion(suggestion: Supplier): void {
 
     this.searchQuery = suggestion.name;
 
@@ -167,8 +148,11 @@ export class SupplierListComponent implements OnInit, OnDestroy {
       event.preventDefault();
 
       if (this.selectedSuggestionIndex <= 0) {
+
         this.selectedSuggestionIndex = list.length - 1;
+
       } else {
+
         this.selectedSuggestionIndex =
           this.selectedSuggestionIndex - 1;
       }
@@ -218,10 +202,10 @@ export class SupplierListComponent implements OnInit, OnDestroy {
           return supplier.id !== id;
 
         });
-
       },
 
       error: (error) => {
+
         console.error('Error deleting supplier:', error);
       }
     });

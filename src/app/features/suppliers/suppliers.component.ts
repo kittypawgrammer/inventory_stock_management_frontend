@@ -17,7 +17,9 @@ export interface Supplier {
   styleUrl: './suppliers.component.css'
 })
 
+
 export class SuppliersComponent implements OnInit {
+
   //array to hold suppliers
   suppliers: Supplier[] = [];
 
@@ -27,6 +29,7 @@ export class SuppliersComponent implements OnInit {
     this.getSuppliers();
   }
 
+  // fetch all suppliers
   getSuppliers(): void {
     this.supplierService.getSuppliers().subscribe({
       next: (suppliers) => {
