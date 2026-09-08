@@ -64,7 +64,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
       .subscribe({
 
         // API success
-        next: (response) => {
+        next: (response: ProductsResponse) => {
 
           this.products = response.items;
 
@@ -72,7 +72,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
         },
 
         // API error
-        error: (error) => {
+        error: (error: any) => {
           console.error('Error loading products:', error);
         }
 
